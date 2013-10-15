@@ -43,6 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FeatImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FeatImage.Designer.cs">
+      <DependentUpon>FeatImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FeaturePointWithValidFlag.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -51,6 +58,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FeatImage.resx">
+      <DependentUpon>FeatImage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
