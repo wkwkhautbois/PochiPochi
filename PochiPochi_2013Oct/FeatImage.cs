@@ -150,10 +150,7 @@ namespace FeatImage
             set;
         }
 
-        /// <summary>
-        /// set:画像
-        /// get:特徴点が描画された画像
-        /// </summary>
+        
         public Bitmap Image
         {
             get { return _origImg; }
@@ -161,6 +158,13 @@ namespace FeatImage
             {
                 _origImg = value;
                 UpdateImage();
+            }
+        }
+        public Bitmap MarkedImage
+        {
+            get {
+                SelectingFPNumber = null;
+                return _fpImg;
             }
         }
 

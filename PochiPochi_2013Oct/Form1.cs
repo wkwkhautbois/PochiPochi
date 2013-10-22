@@ -227,6 +227,32 @@ namespace PochiPochi_2013Oct
             _featImage.CurrentFPCondition = FeatImage.FeatImage.EFeaturePointCondition.Invisible;
         }
 
+        private void _button_SaveImage_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "png|*.png|jpeg|*.jpg|bitmap|*.bmp|ALL|*.*";
+            sfd.FileName = _currentImageFileNameWithoutExtention + "_fp";
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string ext = System.IO.Path.GetExtension(sfd.FileName); //保存拡張子
+                System.Drawing.Imaging.ImageFormat format = System.Drawing.Imaging.ImageFormat.Png;
+                //形式で場合分け
+                switch(ext){
+                    case ".png":
+                        format = System.Drawing.Imaging.ImageFormat.Png;
+                        break;
+                    case ".jpg":
+                        format = System.Drawing.Imaging.ImageFormat.Jpeg;
+                        break;
+                    case ".bmp":
+                        format = System.Drawing.Imaging.ImageFormat.Bmp;
+                        break;
+                }
+                //指定した形式で特徴点つき画像を保存
+                _featImage.MarkedImage.Save(sfd.FileName, format);
+            }
+        }
+
 
     }
 }

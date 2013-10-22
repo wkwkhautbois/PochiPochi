@@ -47,6 +47,7 @@
             this._radioButton_fpConditionInvisible = new System.Windows.Forms.RadioButton();
             this._radioButton_fpConditionVisible = new System.Windows.Forms.RadioButton();
             this._featImage = new FeatImage.FeatImage();
+            this._button_SaveImage = new System.Windows.Forms.Button();
             this._groupBox_coordOption.SuspendLayout();
             this._groupBox_mode.SuspendLayout();
             this._groupBox_fpCondition.SuspendLayout();
@@ -271,11 +272,22 @@
             this._featImage.Size = new System.Drawing.Size(642, 520);
             this._featImage.TabIndex = 21;
             // 
+            // _button_SaveImage
+            // 
+            this._button_SaveImage.Location = new System.Drawing.Point(670, 232);
+            this._button_SaveImage.Name = "_button_SaveImage";
+            this._button_SaveImage.Size = new System.Drawing.Size(75, 23);
+            this._button_SaveImage.TabIndex = 24;
+            this._button_SaveImage.Text = "SaveImage";
+            this._button_SaveImage.UseVisualStyleBackColor = true;
+            this._button_SaveImage.Click += new System.EventHandler(this._button_SaveImage_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(757, 583);
+            this.Controls.Add(this._button_SaveImage);
             this.Controls.Add(this._groupBox_fpCondition);
             this.Controls.Add(this._button_loadFPs);
             this.Controls.Add(this._featImage);
@@ -321,6 +333,7 @@
         private System.Windows.Forms.GroupBox _groupBox_fpCondition;
         private System.Windows.Forms.RadioButton _radioButton_fpConditionInvisible;
         private System.Windows.Forms.RadioButton _radioButton_fpConditionVisible;
+        private System.Windows.Forms.Button _button_SaveImage;
     }
 }
 
