@@ -47,7 +47,7 @@ namespace FeatImage
         private ECoordinateOption _coordinateSystem;
         private EMouseMode _mouseMode;
         private int _markSize;
-        private int _fontSize = 10;
+        private int _fontSize;
         //private System.Drawing.Drawing2D.InterpolationMode _interpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
         //DrawImage()が遅いためしばらくは使わない, 自分でNN,Bilinearを実装したら利用するかも
         //private EFeaturePointCondition? _currentFPCondition;
@@ -98,6 +98,16 @@ namespace FeatImage
             set
             {
                 _markSize = value;
+                UpdateImage();
+            }
+        }
+
+        public int FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                _fontSize = value;
                 UpdateImage();
             }
         }

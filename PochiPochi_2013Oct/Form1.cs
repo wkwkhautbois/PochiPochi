@@ -249,7 +249,14 @@ namespace PochiPochi_2013Oct
                         break;
                 }
                 //指定した形式で特徴点つき画像を保存
+                //フォントサイズ, マーカーサイズを一時的に変更
+                int fs = _featImage.FontSize;
+                int ms = _featImage.MarkSize;
+                //_featImage.FontSize = 16;
+                //_featImage.MarkSize = 16;
                 _featImage.MarkedImage.Save(sfd.FileName, format);
+                _featImage.FontSize = fs;
+                _featImage.MarkSize = ms;
             }
         }
 

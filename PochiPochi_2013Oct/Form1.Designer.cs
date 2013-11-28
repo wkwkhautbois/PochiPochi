@@ -46,8 +46,8 @@
             this._groupBox_fpCondition = new System.Windows.Forms.GroupBox();
             this._radioButton_fpConditionInvisible = new System.Windows.Forms.RadioButton();
             this._radioButton_fpConditionVisible = new System.Windows.Forms.RadioButton();
-            this._featImage = new FeatImage.FeatImage();
             this._button_SaveImage = new System.Windows.Forms.Button();
+            this._featImage = new FeatImage.FeatImage();
             this._groupBox_coordOption.SuspendLayout();
             this._groupBox_mode.SuspendLayout();
             this._groupBox_fpCondition.SuspendLayout();
@@ -252,6 +252,17 @@
             this._radioButton_fpConditionVisible.UseVisualStyleBackColor = true;
             this._radioButton_fpConditionVisible.Click += new System.EventHandler(this._radioButton_fpConditionVisible_Click);
             // 
+            // _button_SaveImage
+            // 
+            this._button_SaveImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._button_SaveImage.Location = new System.Drawing.Point(670, 232);
+            this._button_SaveImage.Name = "_button_SaveImage";
+            this._button_SaveImage.Size = new System.Drawing.Size(75, 23);
+            this._button_SaveImage.TabIndex = 24;
+            this._button_SaveImage.Text = "SaveImage";
+            this._button_SaveImage.UseVisualStyleBackColor = true;
+            this._button_SaveImage.Click += new System.EventHandler(this._button_SaveImage_Click);
+            // 
             // _featImage
             // 
             this._featImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -261,6 +272,7 @@
             this._featImage.CoordinateSystem = FeatImage.FeatImage.ECoordinateOption.LeftTopZero;
             this._featImage.CurrentFPCondition = null;
             this._featImage.FeaturePoints = featurePointsList1;
+            this._featImage.FontSize = 8;
             this._featImage.Image = null;
             this._featImage.ImageScale = 1D;
             this._featImage.Location = new System.Drawing.Point(12, 13);
@@ -271,16 +283,6 @@
             this._featImage.SelectingFPNumber = null;
             this._featImage.Size = new System.Drawing.Size(642, 520);
             this._featImage.TabIndex = 21;
-            // 
-            // _button_SaveImage
-            // 
-            this._button_SaveImage.Location = new System.Drawing.Point(670, 232);
-            this._button_SaveImage.Name = "_button_SaveImage";
-            this._button_SaveImage.Size = new System.Drawing.Size(75, 23);
-            this._button_SaveImage.TabIndex = 24;
-            this._button_SaveImage.Text = "SaveImage";
-            this._button_SaveImage.UseVisualStyleBackColor = true;
-            this._button_SaveImage.Click += new System.EventHandler(this._button_SaveImage_Click);
             // 
             // Form1
             // 
