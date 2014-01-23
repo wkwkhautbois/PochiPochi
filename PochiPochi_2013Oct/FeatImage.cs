@@ -35,10 +35,6 @@ namespace FeatImage
         }
 
 
-
-        //--------定数定義--------
-
-
         //-----フィールド変数宣言-----
         private Bitmap _origImg;    //元の画像
         private Bitmap _fpImg;      //特徴点が描画された画像
@@ -141,8 +137,6 @@ namespace FeatImage
 
         }
 
-
-
         //選択されている特徴点番号[nullable](選択されている&&ドラッグ中=動かされている)
         public int? SelectingFPNumber
         {
@@ -210,8 +204,6 @@ namespace FeatImage
             _pictureBox.Size = new Size(newWidth, newHeight);
             _pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             _pictureBox.Image = _fpImg;
-
-
         }
 
         private Bitmap DrawFeaturePoints(Bitmap src)
@@ -266,7 +258,6 @@ namespace FeatImage
                     }
                 }
             }
-
 
             return dst;
         }
@@ -324,7 +315,6 @@ namespace FeatImage
                         case System.Windows.Forms.MouseButtons.Right:
                             if (_fpList.Count() > 0) PopFeaturePoint();
                             break;
-
                     }
                     int k = FeaturePoints.Count();
                     if (k > 0)

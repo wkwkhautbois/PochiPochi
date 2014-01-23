@@ -26,13 +26,30 @@ namespace FeaturePoints
 
         public FeaturePointWithValidFlag()
         {
-
         }
 
         public FeaturePointWithValidFlag(System.Drawing.Point pt, bool isValid)
         {
             _point = pt;
             _valid = isValid;
+        }
+
+        public FeaturePointWithValidFlag(int x, int y, bool isValid)
+        {
+            _point = new System.Drawing.Point(x, y);
+            _valid = isValid;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            FeaturePointWithValidFlag tgt = (FeaturePointWithValidFlag)obj;
+
+            return (this._point == tgt._point) && (this._valid == tgt._valid);
         }
 
         public FeaturePointWithValidFlag DeepClone()
@@ -57,6 +74,11 @@ namespace FeaturePoints
         public FeaturePointsList()
         {
             _fps = new List<FeaturePointWithValidFlag>();
+        }
+
+        public FeaturePointsList(int length)
+        {
+            _fps = new List<FeaturePointWithValidFlag>(new FeaturePointWithValidFlag[length]);
         }
 
         public FeaturePointWithValidFlag this[int pos]

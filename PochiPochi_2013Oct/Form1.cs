@@ -27,7 +27,7 @@ namespace PochiPochi_2013Oct
         private void Form1_Shown(object sender, EventArgs e)
         {
             _radioButton_modeAddErase.PerformClick();
-            _radioButton_coordLeftBottomOne.PerformClick();
+            _radioButton_coordLeftTopZero.PerformClick();
         }
 
         private void _button_openNewImage_Click(object sender, EventArgs e)
@@ -55,66 +55,33 @@ namespace PochiPochi_2013Oct
             if (sfd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             //まずは左上(0,0)の座標系で座標を取得
-            FeaturePoints.FeaturePointsList fpList_lt = _featImage.FeaturePoints;
+            FeaturePointsList fpList_lt = _featImage.FeaturePoints;
 
-            //指定の座標系に変換
-            FeaturePoints.FeaturePointsList fpList = fpList_lt.DeepClone(); //変換後の特徴点座標, 要素数確保のため、ダミーとしてfpList_ltの深いコピーを入れておく
-            FeatImage.FeatImage.ECoordinateOption coordOpt = CheckCoordinateOption();
-            
-            int n = fpList_lt.Count();
-            for (int i = 0; i < n; i++)
-            {
-                Point pt;
-                int imgHeight = _featImage.Image.Height;
-                if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftTopZero) pt = fpList_lt[i].Point;
-                else if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftBottomZero) pt = new Point(fpList_lt[i].Point.X, imgHeight - fpList_lt[i].Point.Y - 1);
-                else if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftBottomOne) pt = new Point(fpList_lt[i].Point.X + 1, imgHeight - fpList_lt[i].Point.Y);
-                else
-                {
-                    MessageBox.Show("座標系指定エラー@_button_saveFPs_Click(object sender, EventArgs e):\n左上原点として扱います", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    pt = fpList_lt[i].Point;
-                }
+            ////指定の座標系に変換
+            //FeaturePoints.FeaturePointsList fpList = fpList_lt.DeepClone(); //変換後の特徴点座標, 要素数確保のため、ダミーとしてfpList_ltの深いコピーを入れておく
+            FeaturePoints.EFPCoordinate coordOpt = CheckCoordinateOption();
+            FeaturePoints.FPCoordTransformer trans = new FPCoordTransformer(FeaturePoints.EFPCoordinate.LeftTopZero, coordOpt, _featImage.Image.Height);
+            FeaturePointsList fpList=trans.Transform(fpList_lt);
 
-                fpList[i] = new FeaturePoints.FeaturePointWithValidFlag(pt, fpList_lt[i].Valid);
+            FeaturePoints.FPListSaver saver = FeaturePoints.FPListSaverFactory.Create(ESaveFormat.CSV_XYF);
+            saver.Save(sfd.FileName, fpList);
 
-            }
-            SaveFPsAsCSV(sfd.FileName, fpList);
+
         }
-        FeatImage.FeatImage.ECoordinateOption CheckCoordinateOption()
+        FeaturePoints.EFPCoordinate CheckCoordinateOption()
         {
-            if (_radioButton_coordLeftBottomOne.Checked) return FeatImage.FeatImage.ECoordinateOption.LeftBottomOne;
-            else if (_radioButton_coordLeftBottomZero.Checked) return FeatImage.FeatImage.ECoordinateOption.LeftBottomZero;
-            else if (_radioButton_coordLeftTopZero.Checked) return FeatImage.FeatImage.ECoordinateOption.LeftTopZero;
+            if (_radioButton_coordLeftBottomOne.Checked) return FeaturePoints.EFPCoordinate.LeftBottomOne;
+            else if (_radioButton_coordLeftBottomZero.Checked) return FeaturePoints.EFPCoordinate.LeftBottomZero;
+            else if (_radioButton_coordLeftTopZero.Checked) return FeaturePoints.EFPCoordinate.LeftTopZero;
             else
             {
                 MessageBox.Show("座標系指定エラー@CheckCoordinateOption():\n左上原点として扱います", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return FeatImage.FeatImage.ECoordinateOption.LeftTopZero;
+                throw new NotImplementedException();
             }
 
-            
         }
 
-        /// <summary>
-        /// 有効無効フラグつきの特徴点情報をCSVファイルとして書き出す関数
-        /// 各行に、"x座標", "y座標", "フラグ(1が有効,0が無効)" が書き込まれる
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="data"></param>
-        private void SaveFPsAsCSV(string filename, FeaturePoints.FeaturePointsList data)
-        {
-            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(filename))
-            {
-                int n = data.Count();
-                for (int i = 0; i < n; i++)
-                {
-                    string flagValid;
-                    if (data[i].Valid) { flagValid = "1"; }
-                    else { flagValid = "0"; }
-
-                    sw.WriteLine(data[i].Point.X.ToString() + "," + data[i].Point.Y.ToString() + "," + flagValid);
-                }
-            }
-        }
+        
 
         private FeaturePoints.FeaturePointsList LoadFPsAsCSV(string filename)
         {
@@ -157,20 +124,21 @@ namespace PochiPochi_2013Oct
 
             //指定の座標系に変換
             FeaturePoints.FeaturePointsList fpList = fpList_orig.DeepClone(); //変換後の特徴点座標, 要素数確保のため、ダミーとしてfpList_ltの深いコピーを入れておく
-            FeatImage.FeatImage.ECoordinateOption coordOpt = CheckCoordinateOption();
+            FeaturePoints.EFPCoordinate coordOpt = CheckCoordinateOption();
 
             int n = fpList_orig.Count();
             for (int i = 0; i < n; i++)
             {
                 Point pt;
                 int imgHeight = _featImage.Image.Height;
-                if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftTopZero) pt = fpList_orig[i].Point;
-                else if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftBottomZero) pt = new Point(fpList_orig[i].Point.X, imgHeight - fpList_orig[i].Point.Y - 1);
-                else if (coordOpt == FeatImage.FeatImage.ECoordinateOption.LeftBottomOne) pt = new Point(fpList_orig[i].Point.X - 1, imgHeight - fpList_orig[i].Point.Y);
+                if (coordOpt == FeaturePoints.EFPCoordinate.LeftTopZero) pt = fpList_orig[i].Point;
+                else if (coordOpt == FeaturePoints.EFPCoordinate.LeftBottomZero) pt = new Point(fpList_orig[i].Point.X, imgHeight - fpList_orig[i].Point.Y - 1);
+                else if (coordOpt == FeaturePoints.EFPCoordinate.LeftBottomOne) pt = new Point(fpList_orig[i].Point.X - 1, imgHeight - fpList_orig[i].Point.Y);
                 else
                 {
                     MessageBox.Show("座標系指定エラー@_button_saveFPs_Click(object sender, EventArgs e):\n左上原点として扱います", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     pt = fpList_orig[i].Point;
+                    throw new NotImplementedException();
                 }
 
                 fpList[i] = new FeaturePoints.FeaturePointWithValidFlag(pt, fpList_orig[i].Valid);
@@ -252,8 +220,7 @@ namespace PochiPochi_2013Oct
                 //フォントサイズ, マーカーサイズを一時的に変更
                 int fs = _featImage.FontSize;
                 int ms = _featImage.MarkSize;
-                //_featImage.FontSize = 16;
-                //_featImage.MarkSize = 16;
+
                 _featImage.MarkedImage.Save(sfd.FileName, format);
                 _featImage.FontSize = fs;
                 _featImage.MarkSize = ms;
